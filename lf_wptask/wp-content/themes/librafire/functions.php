@@ -1,8 +1,6 @@
 <?php
 function my_theme_enqueue_styles() {
-
     $parent_style = 'parent-style';
-
     wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
     wp_enqueue_style( 'child-style',
         get_stylesheet_directory_uri() . '/style.css',
@@ -11,7 +9,6 @@ function my_theme_enqueue_styles() {
     );
 }
 add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
-
 function custom_post_employee() {
 	$labels = array(
 	'name' => _x( 'Employee', 'post type general name' ),
@@ -29,10 +26,13 @@ function custom_post_employee() {
 	'menu_name' => 'Employees'
 	);
 	$supports = array(
-	'editor',
+	'title',
+	'editor', 
 	'author',
 	'custom-fields',
-	'post-formats'
+	'post-formats',
+	'comments',
+	'revisions'
 	);
 	$details = array(
 		'labels' => $labels,
@@ -45,7 +45,6 @@ function custom_post_employee() {
 	register_post_type( 'employee', $details );
 }
 add_action( 'init', 'custom_post_employee' );
-
 function taxonomies_employee() {
 	$labels = array(
 		'name' => _x( 'Employee roles', 'taxonomy general name' ),
@@ -67,9 +66,7 @@ function taxonomies_employee() {
 	register_taxonomy('employee_category', 'employee', $args);
 }
 add_action('init', 'taxonomies_employee', 0 );
-
 add_action('add_meta_boxes', 'employee_details_box');
-
 function employee_details_box() {
 	add_meta_box(
 	'employee_details_box',
@@ -78,7 +75,6 @@ function employee_details_box() {
 	'employee_details_box_content', 'employee', 'normal','high'
 	);
 }
-
 function employee_details_box_content($post){
 	wp_nonce_field( plugin_basename( __FILE__ ), 'employee_details_box_content_nonce' );
 	echo '<label for="employee_details_text">Employee: </label>';
