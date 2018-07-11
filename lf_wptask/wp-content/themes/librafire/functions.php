@@ -29,10 +29,13 @@ function custom_post_employee() {
 	'menu_name' => 'Employees'
 	);
 	$supports = array(
-	'editor',
+	'title',
+	'editor', 
 	'author',
 	'custom-fields',
-	'post-formats'
+	'post-formats',
+	'comments',
+	'revisions'
 	);
 	$details = array(
 		'labels' => $labels,
